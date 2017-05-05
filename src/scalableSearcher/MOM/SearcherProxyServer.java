@@ -1,4 +1,4 @@
-package scalabeSearcher.MOM;
+package scalableSearcher.MOM;
 
 import java.rmi.Naming;
 
