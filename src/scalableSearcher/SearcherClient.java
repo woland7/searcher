@@ -45,7 +45,7 @@ class Worker extends Thread{
 		for(int i = 0; i < nR; i++){
 			try {
 				boolean result = s.findObject(i);
-				//(result) System.out.println("i: " + found");
+				System.out.println("Object with key " + i + " exists: " + result);
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
