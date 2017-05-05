@@ -1,10 +1,10 @@
-package scalableSearcher;
+package scalabeSearcher.MOM;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
-public class SearcherImpl extends UnicastRemoteObject implements Searcher {
-	private static final long serialVersionUID = 1L;
-	protected SearcherImpl() throws RemoteException {}
+import scalableSearcher.Searcher;
+
+public class SearcherImpl implements Searcher {
+	protected SearcherImpl(){}
 	
 	public boolean findObject(Object o) throws RemoteException{
 		int in = (Integer) o;
