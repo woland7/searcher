@@ -9,8 +9,8 @@ public class DBInterfacer {
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
    //cambiare il nome del db e della tabella
-   private String dbname = "test_db";
-   private String tableName = "Employee_ext";
+   private String dbname = "assd";
+   private String tableName = "persons";
    private String DB_URL = "jdbc:mysql://localhost/" + dbname;
 
    //  Database credentials
@@ -36,6 +36,7 @@ public class DBInterfacer {
 	   
 	   openConnection();
    }
+   
    public void openConnection(){
       try {
     	//Register JDBC driver
@@ -50,6 +51,7 @@ public class DBInterfacer {
 		e.printStackTrace();
       }
    }
+   
    public ArrayList<Employee> getAllRecords(){
 	   ArrayList<Employee> allEmpl = new ArrayList<>();
 	   sql = "SELECT * FROM " + tableName;
@@ -67,6 +69,11 @@ public class DBInterfacer {
 	   } catch (SQLException e) { e.printStackTrace();}
 	   //printResults(allEmpl);
 	   return allEmpl;
+   }
+   
+   public boolean exists(int ID){
+	   if(getByID(ID)==null) return false;
+	   else return true;
    }
    
    public Employee getByID(int e_id){
@@ -89,15 +96,17 @@ public class DBInterfacer {
 		}
 	   return employee;
    }
+   
    public void insert(Employee e){
-	   System.out.println(e.getFirstname() + e.getLastname() + e.getJob());
+	   System.out.println(e.getFirstName() + e.getLastName() + e.getJob());
 	   sql = "INSERT INTO "+tableName 
-	   		+ " (firstname, lastname, job) VALUES ('"+e.getFirstname()+"', '"+e.getLastname()+"', '"+ e.getJob()+"')";
+	   		+ " (firstname, lastname, job) VALUES ('"+e.getFirstName()+"', '"+e.getLastName()+"', '"+ e.getJob()+"')";
 	   System.out.println(sql);
 	   try {
 		stmt.executeUpdate(sql);
 	   } catch (SQLException e1) { e1.printStackTrace(); }
    }
+   
    public void delete(int id){
 	   sql = "DELETE FROM "+tableName+" WHERE id =" + id;
 	   try {
@@ -115,12 +124,14 @@ public class DBInterfacer {
 		stmt.execute(sql);
 		} catch (SQLException e) {e.printStackTrace(); }
    }
+   
    public void clearTable(){
 	   sql = "Truncate table " + tableName;
 	   try {
 		stmt.execute(sql);
 		} catch (SQLException e) {e.printStackTrace(); }
    }
+   
    public void closeDB(){
 	    try {
 			stmt.close();
@@ -138,10 +149,9 @@ public class DBInterfacer {
 		  System.out.println("empty return list");
 	  }else{
 		  for(Employee e: list){
-		      record = "ID: " + e.getId() + "First: " + e.getFirstname() + ", Last: " + e.getLastname()+ ", Job: " + e.getJob();
+		      record = "ID: " + e.getID() + "First: " + e.getFirstName() + ", Last: " + e.getLastName()+ ", Job: " + e.getJob();
 		      System.out.println(record);
 		  }
 	  }
-   }
-   
-}//end DBInterface
+   }  
+}

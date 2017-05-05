@@ -1,33 +1,31 @@
 package data.model;
 
 public class Employee {
-	public Employee(String firstname, String lastname, String job) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
+	public Employee(String firstName, String lastName, String job) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.job = job;
-		this.id=0;
+		this.ID=0;
 	}
 
-	public Employee(int id, String firstname, String lastname, String job) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
+	public Employee(int ID, String firstName, String lastName, String job) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.job = job;
-		this.id = id;
+		this.ID = ID;
 	}	
 	
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstname(String firstName) {
+		this.firstName = firstName;
 	}
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getJob() {
 		return job;
@@ -35,21 +33,20 @@ public class Employee {
 	public void setJob(String job) {
 		this.job = job;
 	}
-	public int getId() {
-		return id;
+	public int getID() {
+		return ID;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 
 	public String toString(){
-		String state = "ID: " + id +
-				" Firstname: " +firstname +
-				" Lastname: " + lastname +
+		String state = "ID: " + ID +
+				" Firstname: " +firstName +
+				" Lastname: " + lastName +
 				" Job: " + job;
 		return state;
 	}
-	private String firstname, lastname, job;
-	private int id;
-
+	private String firstName, lastName, job;
+	private int ID;
 }

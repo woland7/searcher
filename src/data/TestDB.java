@@ -6,7 +6,6 @@ public class TestDB {
 	public static void main(String[] args) {
 		DBInterfacer db = new DBInterfacer();
 		db.clearTable();
-		if(db==null) System.out.println("nullo");
 		Employee empl = new Employee("Emiliya", "Hrabova", "Paid for doing nothing");
 		db.insert(empl);
 		empl = new Employee("Antonio", "De Iasio", "SEO");
