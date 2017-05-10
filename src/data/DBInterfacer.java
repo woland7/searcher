@@ -3,14 +3,14 @@ package data;
 import java.sql.*;
 import java.util.ArrayList;
 
-import data.model.Employee;
+import data.model.City;
 
 public class DBInterfacer {
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
    //cambiare il nome del db e della tabella
-   private String dbname = "assd";
-   private String tableName = "persons";
+   private String dbname = "world_new";
+   private String tableName = "city";
    private String DB_URL = "jdbc:mysql://localhost/" + dbname;
 
    //  Database credentials
@@ -52,23 +52,24 @@ public class DBInterfacer {
       }
    }
    
-   public ArrayList<Employee> getAllRecords(){
-	   ArrayList<Employee> allEmpl = new ArrayList<>();
+   public ArrayList<City> getAllRecords(){
+	   ArrayList<City> cities = new ArrayList<>();
 	   sql = "SELECT * FROM " + tableName;
 	   ResultSet rs = null;
 	   try {
 		 rs = stmt.executeQuery(sql);
 		 while(rs.next()){
 			   //Retrieve by column name
-			   int id  = rs.getInt("id");
-			   String first = rs.getString("firstname");
-			   String last = rs.getString("lastname");
-			   String job = rs.getString("job");
-			   allEmpl.add(new Employee(id, first, last, job));
+			   int id  = rs.getInt("ID");
+			   String name = rs.getString("Name");
+			   String ccode = rs.getString("CountryCode");
+			   String dist = rs.getString("District");
+			   int population = rs.getInt("Population");
+			   cities.add(new City(id, name, ccode, dist, population));
 		 }
 	   } catch (SQLException e) { e.printStackTrace();}
 	   //printResults(allEmpl);
-	   return allEmpl;
+	   return cities;
    }
    
    public boolean exists(int ID){
@@ -76,38 +77,41 @@ public class DBInterfacer {
 	   else return true;
    }
    
-   public Employee getByID(int e_id){
-	   //System.out.println("Processing query...");
-	   Employee employee = null;
+   public City getByID(int e_id){
+	   System.out.println("Processing query...");
+	   City city = null;
 	   try {
-		   stmt = conn.createStatement();
-		   sql = "SELECT * FROM "+ tableName + " WHERE id = " + e_id;
+		   sql = "SELECT * FROM "+ tableName + " WHERE ID = " + e_id;
 		   ResultSet rs = stmt.executeQuery(sql);
 		   //true if exists
-		   if (rs.first()){  
-		       String first = rs.getString("firstname");
-		       String last = rs.getString("lastname");
-		       String job = rs.getString("job");
-		       //create employee
-		       employee = new Employee(e_id, first, last, job);
+		   if (rs.first()){ 
+			   System.out.println("Result set not null");
+			   String name = rs.getString("Name");
+			   String ccode = rs.getString("CountryCode");
+			   String dist = rs.getString("District");
+			   int population = rs.getInt("Population");
+		       //create city
+		       city = new City(e_id, name, ccode, dist, population);
 		   }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	   return employee;
+	   System.out.println(city.toString());
+	   return city;
    }
    
-   public void insert(Employee e){
-	   System.out.println(e.getFirstName() + e.getLastName() + e.getJob());
+   public void insert(City c){
+	   System.out.println("insert :" + c.toString());
 	   sql = "INSERT INTO "+tableName 
-	   		+ " (firstname, lastname, job) VALUES ('"+e.getFirstName()+"', '"+e.getLastName()+"', '"+ e.getJob()+"')";
+	   		+ " (Name, CountryCode , District, Population) VALUES "
+	   		+ "('"+c.getName()+"', '"+c.getCountryCode()+"', '" + c.getDistrict() + "', '"+ c.getPopulation()+"')";
 	   System.out.println(sql);
 	   try {
 		stmt.executeUpdate(sql);
 	   } catch (SQLException e1) { e1.printStackTrace(); }
    }
    
-   public void delete(int id){
+   public void deleteById(int id){
 	   sql = "DELETE FROM "+tableName+" WHERE id =" + id;
 	   try {
 		stmt.execute(sql);
@@ -143,13 +147,13 @@ public class DBInterfacer {
 		}    
    }
    
-   public void printResults(ArrayList<Employee> list){ 
+   public void printResults(ArrayList<City> list){ 
 	  String record = "";
 	  if(list==null){
 		  System.out.println("empty return list");
 	  }else{
-		  for(Employee e: list){
-		      record = "ID: " + e.getID() + "First: " + e.getFirstName() + ", Last: " + e.getLastName()+ ", Job: " + e.getJob();
+		  for(City c: list){
+		      record = c.toString() + "\n";
 		      System.out.println(record);
 		  }
 	  }
