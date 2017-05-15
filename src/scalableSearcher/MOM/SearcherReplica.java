@@ -36,7 +36,6 @@ class SearcherReplierImpl extends ReplierImpl{
 		
 		ObjectMessage resMsg = createObjectMessage();
 		resMsg.setObject(r);
-		return resMsg;
-		
+		return resMsg;	
 	}
 }

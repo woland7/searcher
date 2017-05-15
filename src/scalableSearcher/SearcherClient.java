@@ -76,10 +76,22 @@ class Worker extends Thread{
 		long elapsedTime = System.currentTimeMillis();
 		for(int i = 0; i < nR; i++){
 			try {
-				boolean result = s.findObject(i);
-				System.out.println("Object with key " + i + " exists: " + result);
+				s.findObject(i);
 			} catch (RemoteException e) {
-				e.printStackTrace();
+				System.out.println("Failure detected");
+				try {
+					s = (Searcher)Naming.lookup("rmi://127.0.0.1/searcher");
+					s.findObject(i);
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 		//
