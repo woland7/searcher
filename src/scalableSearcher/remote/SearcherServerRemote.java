@@ -1,24 +1,36 @@
 package scalableSearcher.remote;
-import java.net.MalformedURLException;
-import java.rmi.AccessException;
-import java.rmi.Naming;
-import java.rmi.RemoteException;
 
-import data.DBInterfacer;
+import java.rmi.Naming;
+import java.util.Scanner;
+import scalableSearcher.FailureDetector;
+import scalableSearcher.FailureDetectorImpl;
 import scalableSearcher.Searcher;
+import scalableSearcher.MOM.LocalDetector;
 
 public class SearcherServerRemote {
-	public static void main(String[] args) {
-		try {
-			DBInterfacer db = new DBInterfacer();
-			Searcher s = new SearcherImpl(db);       
-			Naming.rebind("rmi://127.0.0.1/searcher", s);      
-		} catch (AccessException e) { 
-			System.err.println("Bind operation not permitted");      
-		} catch (RemoteException e) { 
-			System.err.println("Registry could not be contacted");
-		} catch (MalformedURLException e) { 
-			System.err.println("Wrong URL for binding");      
-		}   
+	public static void main(String[] args){		
+		System.out.println("Inserisci il tipo: ");
+		Scanner sc = new Scanner(System.in);
+		String tipo = sc.nextLine();
+		sc.close();
+		if(tipo.equals("main")){
+			try{
+
+				Searcher s = new SearcherImpl();
+				Naming.rebind("rmi://127.0.0.1/searcher", s);
+				FailureDetector fd = new FailureDetectorImpl();
+				Naming.rebind("rmi://127.0.0.1/detector", fd);
+				System.out.println("Main server running...");
+
+			}catch(Exception e){
+				System.err.println("There's some error.");
+			}
+		}
+		else if(tipo.equals("secondary")){
+			LocalDetector ld = new LocalDetector();
+			ld.start();
+		}
+		else
+			System.out.println("Tipo non identificato");
 	}
 }
