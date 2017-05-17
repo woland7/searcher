@@ -15,7 +15,7 @@ public class SearcherProxy extends UnicastRemoteObject implements Searcher {
 	private static final long serialVersionUID = 1L;
 	private Requestor requestor;
 	public SearcherProxy() throws RemoteException, JMSException{
-		requestor = new RequestorImpl("searchQueue", true);
+		requestor = new RequestorImpl("searchQueue", true, "169.254.253.40", true);
 	}
 	public boolean findObject(Object o) throws RemoteException{
 		try{

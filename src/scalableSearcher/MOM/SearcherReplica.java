@@ -15,6 +15,7 @@ public class SearcherReplica {
 		try{
 			Replier replier = new SearcherReplierImpl("searchQueue");
 			replier.start();
+			System.out.println("Replica has been started");
 		}catch(Exception e){System.err.println("Replica failed");}
 	}
 }
@@ -22,7 +23,7 @@ public class SearcherReplica {
 class SearcherReplierImpl extends ReplierImpl{
 	private Searcher searcher = new SearcherImpl();
 	public SearcherReplierImpl(String queueName) throws JMSException{
-		super(queueName, true);
+		super(queueName, true, "169.254.253.40", true);
 	}
 	public Message onRequest(Message msg) throws JMSException{
 		ObjectMessage om = (ObjectMessage)msg;
